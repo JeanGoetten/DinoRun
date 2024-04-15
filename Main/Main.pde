@@ -25,6 +25,7 @@ float dinoYIncrease; // variável numérica para azrmazenar o incremento vertica
 float jumpSpeed; // variável numérica para armazenar a velocidade do incremento vertical do dino
 float fallSpeed; // variável numérica usada para armazenar a velocidade do decremento vertical do dino 
 float maxJump; // variável numérica para armazenar o valor máximo vertical que o dino pode ter com o pulo 
+float maxFallSpeed; // variável numérica para armazenar o valor máximo da velocidade de deslocamento vertical 
 
 // variáveis de tempo 
 float delta; // armazena a diferença de tempo entre dois momentos 
@@ -46,6 +47,8 @@ int countFrame;
 boolean gamming; // registra se o jogo está rodando ou não 
 
 int i = 0; // contador para testes
+
+float deltaY; 
 
 // INICIALIZAÇÃO
 void setup(){
@@ -71,7 +74,8 @@ void setup(){
   dinoYIncrease = 10; // variável de incremento vertical do dino (usada para o pulo)
   maxJump = -200; // valor vertical máximo do dino enquanto pula 
   jumpSpeed = 4; // velocidade de subida do pulo do dino 
-  fallSpeed = 2; // velocidade de queda do pulo do dino 
+  fallSpeed = 0; // velocidade de queda do pulo do dino 
+  maxFallSpeed = 4; 
   
   delta = 0; // inicia o delta tempo
   lastTime = 0; // inicializa o registro de tempo do evento pulo
@@ -91,6 +95,8 @@ void setup(){
   gamming = false; // inicia o programa sem acesso ao jogo 
   
   tempoNaoJogado = 0; // inicializa o tempo não jogado 
+  
+  deltaY = 0; 
 }
 
 // LOOP PRINCIPAL 
@@ -145,6 +151,10 @@ public void Dino(){ // desenha o personagem principal e define sua posição
     dinoYIncrease = 10; // reposiciona o dino pra cima se estiver abaixo da medida 
   }else if(dinoY < startY){ // verifica se o dino está acima do chão 
     fall = true; // armazena o valor de verdadeiro para dino caindo
+    if(deltaY > maxJump){
+      deltaY--; 
+    }
+    //fallSpeed = fallSpeed + (log(pow(sqrt(deltaY), 2))/log(10)); 
     dinoYIncrease = dinoYIncrease + (fallSpeed+(score/20)); // decrementa a medida vertical se estiver acima (gravidade) na medida do tempo de jogo
     image(img_dinoJump, dinoX, (height/2)+dinoYIncrease, 60, 60);  //img x y w h // animação key3 (fall)
   }else{
